@@ -142,7 +142,7 @@ class TrainArguments(SwanlabArguments, TunerArguments, BaseArguments, Seq2SeqTra
                 raise ValueError(f'The "{feature}" feature needs to be used in conjunction with "flash_attn". '
                                  'Please specify `--attn_impl flash_attn`.')
         if self.resume_from_checkpoint:
-            self.resume_from_checkpoint = to_abspath(self.resume_from_checkpoint, True)
+            self.resume_from_checkpoint = to_abspath(self.resume_from_checkpoint, True, self.output_dir)
             if self.resume_only_model:
                 if self.train_type == 'full':
                     self.model = self.resume_from_checkpoint
