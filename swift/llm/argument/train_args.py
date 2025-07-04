@@ -164,14 +164,14 @@ class TrainArguments(SwanlabArguments, TunerArguments, BaseArguments, Seq2SeqTra
         self._handle_pai_compat()
 
         self._init_deepspeed()
-        self._init_device()
+        self._init_device()# 此时还是CPU
         self._init_lazy_tokenize()
 
         if getattr(self, 'accelerator_config', None) is None:
             self.accelerator_config = {'dispatch_batches': False}
         if self.split_dataset_ratio == 0 and not self.val_dataset:
-            self.eval_strategy = 'no'
-        self.training_args = TrainerFactory.get_training_args(self)
+            self.eval_strategy = 'no'# split_dataset_ratio默认0.01所以不会走到这
+        self.training_args = TrainerFactory.get_training_args(self)#此时还是CPU
         self.training_args.remove_unused_columns = False
         self._add_version()
         self._check_packing()

@@ -62,7 +62,7 @@ class DataArguments:
 
     def __post_init__(self):
         self.columns = self.parse_to_dict(self.columns)
-        if len(self.val_dataset) > 0 or self.streaming:
+        if len(self.val_dataset) > 0 or self.streaming:# 如果不传val，这里是[]
             self.split_dataset_ratio = 0.
             if len(self.val_dataset) > 0:
                 msg = 'len(args.val_dataset) > 0'
