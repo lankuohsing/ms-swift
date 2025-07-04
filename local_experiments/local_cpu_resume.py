@@ -5,14 +5,13 @@ import os
 from swift.llm import sft_main, TrainArguments
 if __name__=="__main__":
     result = sft_main(TrainArguments(
-        # model='/Users/guoxing.lan/projects/models/qwen3/Qwen3-0.6B',
-        model='/Users/guoxing.lan/projects/github/ms-swift/outputs/0.6B_self_cognition_mixin/v0-20250704-144833/checkpoint-4',
+        model=r'D:\projects\models\qwen3\Qwen3-0.6B',
         train_type='full',
-        dataset=['/Users/guoxing.lan/projects/datasets/post_training/self-cognition/self_cognition_train.jsonl',
-                 '/Users/guoxing.lan/projects/datasets/post_training/Qwen3-SFT-Mixin/qwen3_32b_distill_1k_train.jsonl'
+        dataset=[r'D:\projects\datasets\self-cognition\self_cognition_train.jsonl',
+                 r'D:\projects\datasets\Qwen3-SFT-Mixin\qwen3_32b_distill_1k_train.jsonl'
                  ],
-        val_dataset=['/Users/guoxing.lan/projects/datasets/post_training/self-cognition/self_cognition_val.jsonl',
-                 '/Users/guoxing.lan/projects/datasets/post_training/Qwen3-SFT-Mixin/qwen3_32b_distill_1k_val.jsonl'
+        val_dataset=[r'D:\projects\datasets\self-cognition\self_cognition_val.jsonl',
+                 r'D:\projects\datasets\Qwen3-SFT-Mixin\qwen3_32b_distill_1k_val.jsonl'
                  ],
         torch_dtype='float32',
         num_train_epochs=1,
@@ -26,7 +25,7 @@ if __name__=="__main__":
         logging_steps=1,
         max_length=512,
         use_mps_device=False,
-        output_dir='outputs/0.6B_self_cognition_mixin',
+        output_dir='outputs/0.6B_self_cognition_mixin1',
         use_cpu=True,
         device_map='cpu',
         warmup_ratio=0.05,
@@ -35,7 +34,7 @@ if __name__=="__main__":
         gradient_checkpointing=True,
         optim='adamw_torch',
         max_grad_norm=1.0,
-        # resume_from_checkpoint=True,
+        resume_from_checkpoint=True
 
     ))
     print(result)
