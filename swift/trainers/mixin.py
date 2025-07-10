@@ -529,8 +529,8 @@ class SwiftMixin:
     def get_logits_to_keep(self, labels):
         if labels.shape[0] == 1 and not is_mp():
             # device_map may encounter device mismatch issues.
-            loss_mask = (labels != -100)[0]
-            labels = labels[:, loss_mask]
+            loss_mask = (labels != -100)[0]# -100的部分（也即user）为False，其他地方五True
+            labels = labels[:, loss_mask]# 取出True的元素，也就是非-100的部分
             labels = nn.functional.pad(labels, (1, 0), value=-100)
             logits_to_keep = nn.functional.pad(loss_mask[1:], (0, 1), value=True)
         else:

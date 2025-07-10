@@ -312,14 +312,26 @@ class PackingDataset(BasePackingDataset, Dataset):
         if not os.path.exists(os.path.join(cache_dir,
                                            IndexedDataset.IDX_FNAME)) or not self.load_from_cache_file and is_master():
             self._queue = mp.Queue(maxsize=1000)
-            self._terminated_workers = 0
-            self.prog_bar = tqdm(
-                total=len(self.dataset), dynamic_ncols=True, desc=f'Packing (num_proc={self.num_proc})')
-            for i in range(self.num_proc):
-                shard_dataset = self.dataset.shard(self.num_proc, i)
-                worker = mp.Process(target=self._producer, args=(shard_dataset, ), daemon=True)
-                worker.start()
-                self.workers.append(worker)
+            if os.name == 'nt' or True:  # Windows 系统
+                # 直接在主进程处理数据
+                self._terminated_workers = 0
+                self.workers = [] #显式初始化
+                self.prog_bar = tqdm(total=len(self.dataset), desc='Packing (single process)')
+                all_data = [self._encode_data(d) for d in self.dataset]
+                for data in all_data:
+                    self._queue.put(data)
+                self._queue.put(None)
+                self.packing_dataset()
+                self.prog_bar.close()
+            else:
+                self._terminated_workers = 0
+                self.prog_bar = tqdm(
+                    total=len(self.dataset), dynamic_ncols=True, desc=f'Packing (num_proc={self.num_proc})')
+                for i in range(self.num_proc):
+                    shard_dataset = self.dataset.shard(self.num_proc, i)
+                    worker = mp.Process(target=self._producer, args=(shard_dataset, ), daemon=True)
+                    worker.start()
+                    self.workers.append(worker)
 
             self.packing_dataset()
             self.prog_bar.close()

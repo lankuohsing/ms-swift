@@ -139,8 +139,9 @@ class TrainArguments(SwanlabArguments, TunerArguments, BaseArguments, Seq2SeqTra
             else:
                 feature = 'padding_free'
             if self.attn_impl != 'flash_attn':
-                raise ValueError(f'The "{feature}" feature needs to be used in conjunction with "flash_attn". '
-                                 'Please specify `--attn_impl flash_attn`.')
+                pass #为了本地cpu调临时注释下面的抛异常
+                # raise ValueError(f'The "{feature}" feature needs to be used in conjunction with "flash_attn". '
+                #                  'Please specify `--attn_impl flash_attn`.')
         if self.resume_from_checkpoint:
             self.resume_from_checkpoint = to_abspath(self.resume_from_checkpoint, True, self.output_dir)
             if self.resume_only_model:
