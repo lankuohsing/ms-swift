@@ -1,7 +1,7 @@
 # Copyright (c) ModelScope Contributors. All rights reserved.
 from .agent import AgentFlanLossScale, AlphaUmiLossScale, HermesLossScale, QwenLossScale, REACTLossScale
 from .base import ALL_BASE_STRATEGY, LossScale
-from .other import IgnoreEmptyThinkLossScale
+from .other import IgnoreEmptyThinkLossScale, ExpertAnnoLossScale
 
 # Add your loss scale here, use --loss_scale xxx to train
 loss_scale_map = {
@@ -13,6 +13,7 @@ loss_scale_map = {
     'qwen': QwenLossScale,
     'agentflan': AgentFlanLossScale,
     'alpha_umi': AlphaUmiLossScale,
+    'expert_anno': ExpertAnnoLossScale,
 }
 
 

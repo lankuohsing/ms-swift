@@ -149,6 +149,7 @@ class SwiftSft(SwiftPipeline, TunerMixin):
                 continue
             if not args.streaming and args.truncation_strategy != 'split':
                 dataset = LazyLLMDataset(dataset, template.encode, strict=args.strict, random_state=args.data_seed)
+                temp_data=dataset[0]
             if args.packing:
                 packing_dataset_cls = IterablePackingDataset if args.streaming else PackingDataset
                 dataset = packing_dataset_cls(

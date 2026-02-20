@@ -1247,6 +1247,15 @@ class Template(ProcessorMixin):
             answer_len = len(extra_context_list) + bool(response is not None)
         else:
             answer_len = 0
+        import json
+        print(f'''
+inputs.messages: {inputs.messages}
+res_context_list:
+{json.dumps(res_context_list,ensure_ascii=False,indent=2)}
+loss_scale_list:{loss_scale_list}
+answer_len:{answer_len}
+''')
+        print("".join(res_context_list))
         return res_context_list, loss_scale_list, answer_len
 
     def _truncate(self, input_ids: List[int], labels: Optional[List[int]], loss_scale: Optional[List[float]],
