@@ -1131,7 +1131,7 @@ class Template(ProcessorMixin):
         template_meta = self.template_meta
         if self.use_chat_template:
             if self.add_non_thinking_prefix:
-                self._add_non_thinking_prefix(inputs)
+                self._add_non_thinking_prefix(inputs) # 给符合条件的 assistant 补上「非思考」前缀：<think>\n\n</think>\n\n
             if template_meta.is_thinking or self.enable_thinking:
                 self._remove_history_thinking(inputs)
         system = self._get_system(inputs)

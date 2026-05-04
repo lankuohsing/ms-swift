@@ -88,9 +88,11 @@ class LossScale:
         res_context_list = []
         res_loss_scale = []
         i = 0
-        last_user_round = get_last_user_round(messages)
+        # last_user_round = get_last_user_round(messages)# 官方旧方式，有问题
+        last_assistant_round = sum(1 for m in messages if m['role'] == 'assistant') - 1 # 新方式：最后一个assistant
         for context, context_type in zip(context_list, context_types):
-            is_last_round = 2 * i >= last_user_round
+            # is_last_round = 2 * i >= last_user_round# 官方旧方式，有问题,最后一个user之后的所有assistant都会被认为是last_round
+            is_last_round = i >= last_assistant_round # 新方式：最后一个assistant
             query, loss = None, None
             if context_type == ContextType.RESPONSE:
                 query = messages[2 * i]['content']

@@ -31,7 +31,7 @@ if __name__=="__main__":
         logging_steps=1,
         max_length=512,
         # use_mps_device=False,
-        output_dir='outputs/0.6B_agent',
+        output_dir='outputs/0.6B_agent1',
         use_cpu=True,
         device_map='cpu',
         warmup_ratio=0.05,
